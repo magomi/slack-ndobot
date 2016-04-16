@@ -1,0 +1,11 @@
+{
+  "name": "ndobot",
+  "description": "Bring Antoine Brisebard and Inspecor Ducros to your slack team.",
+  "author": "Marco Grunert <marco@grnrt.org>",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "botkit": "^0.1.1",
+    "commander": "^2.9.0"
+  }
+}

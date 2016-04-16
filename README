@@ -1,0 +1,20 @@
+
+  Usage: ndobot [option] -b <key1> -d <key2>
+
+  Options:
+
+    -h, --help                  output usage information
+    -V, --version               output the version number
+    -b, --brisebardkey [value]  Slack API key for Mr. Brisebard bot
+    -d, --ducroskey [value]     Slack API key for Insp. Ducros bot
+
+  Example:
+
+    ndobot \
+      --brisebardkey=xoxb-12345678901-dY0mf7pcJG0oAukJ0GRFL79o \
+      --ducroskey=xoxb-98765432109-cAtP3htRR6wWCto488rw6f12
+
+    Please refer to the Slack documentation about how to create an bot in-
+    stance and to obtain an API key: https://api.slack.com/bot-users
+
+  Marco Grunert <marco@grnrt.org>

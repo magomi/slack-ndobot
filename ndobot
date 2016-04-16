@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+
+/*
+ * parse command line and init parameters
+ */
+program
+  .version('0.0.1')
+  .usage('[option] -b <key1> -d <key2>')
+  .option('-b, --brisebardkey [value]', 'Slack API key for Mr. Brisebard bot')
+  .option('-d, --ducroskey [value]', 'Slack API key for Insp. Ducros bot');
+
+program.on('--help', function() {
+  console.log('  Example:');
+  console.log('');
+  console.log('    ndobot \\');
+  console.log('      --brisebardkey=xoxb-12345678901-dY0mf7pcJG0oAukJ0GRFL79o \\');
+  console.log('      --ducroskey=xoxb-98765432109-cAtP3htRR6wWCto488rw6f12');
+  console.log('');
+  console.log('    Please refer to the Slack documentation about how to create an bot in-');
+  console.log('    stance and to obtain an API key: https://api.slack.com/bot-users');
+  console.log('');
+  console.log('  Marco Grunert <marco@grnrt.org>');
+});
+
+program.parse(process.argv);                       
+                                                   
+if (!program.brisebardkey || !program.ducroskey) { 
+  program.outputHelp();                            
+  process.exit();                                  
+}
+
+/*
+ * init the bots
+ */
+var Botkit = require('botkit');
+var brisebardController = Botkit.slackbot();
+var brisebard = brisebardController.spawn({
+  token: program.brisebardkey
+})
+
+var ducrosController = Botkit.slackbot();
+var ducros = ducrosController.spawn({
+  token: program.ducroskey
+})
+
+brisebard.startRTM(function(err, brisebard, payload) {
+  if (err) {
+    throw new Error('Could not connect [brisebard] to Slack');
+  }
+});
+
+ducros.startRTM(function(err, ducros, payload) {
+  if (err) {
+    throw new Error('Could not connect [ducros] to Slack');
+  }
+});
+
+brisebardController.hears(["keyword","doch"],["direct_message","direct_mention","mention","ambient"],function(brisebard, message) {
+  setTimeout(function() {
+    brisebard.reply(message, 'Ohh!');
+  }, 1000);
+});
+
+ducrosController.hears(["keyword","nein"],["direct_message","direct_mention","mention","ambient"],function(ducros, message) {
+  setTimeout(function() {
+    ducros.reply(message, 'Doch!');
+  }, 1000);
+});
